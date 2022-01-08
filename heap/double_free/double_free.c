@@ -7,7 +7,8 @@ int main() {
     free(a_ptr);
     printf("a_ptr address after free:  %p\n\n", a_ptr);
 
-    printf("Overwriting bytes 8 and 9 of a_ptr's tcache_entry struct, which corresponds to 'the first two bytes of the pointer called \"key\" in the tcache_entry struct.\n");
+    //printf("Overwriting bytes 8 and 9 of a_ptr's tcache_entry struct, which corresponds to 'the first two bytes of the pointer called \"key\" in the tcache_entry struct.\n");
+    printf("Overwriting bytes 8 and 9 tcache_entry struct @ %p\n", a_ptr);
     a_ptr[8] = 1;
     a_ptr[9] = 2;
     free(a_ptr);
