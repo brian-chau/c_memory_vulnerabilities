@@ -1,8 +1,8 @@
 ## Double-free vulnerability
 
-This is similar to the use-after-free vulnerability, which is where we free a heap memory block followed by allocating a new heap memory block of the same size, resulting in both the first and second resulting pointers to point to the same memory block (aka memory block).
+This is similar to the use-after-free vulnerability, which is where we free a heap memory block followed by allocating a new heap memory block of the same size, resulting in both the first and second resulting pointers to point to the same heap memory block.
 
-Double-free vulnerability, however, is when we free a heap memory block twice, resulting in the subsequent two`malloc`s of the same size to return pointers that points to the same memory block.
+Double-free vulnerability, however, is when we free a heap memory block twice, resulting in the subsequent two`malloc`s of the same size to return pointers that points to the same memory block as each other as well as the original pointer that we had freed.
 
 How does this work?
 
