@@ -22,8 +22,8 @@ Here is what might happen:
 2. `a_ptr` is `free`d by the programmer, but `a_ptr` is still valid after the free (i.e. `a_ptr` still points to the heap memory block, even though we already `free`d it).
 3. The application will (behind the scenes) create a `tcache_entry` struct at that heap memory location that `a_ptr` points at.
 4. Somewhere along the line, the programmer forgets that they had already `free`d the heap memory pointed by `a_ptr`, and will start using it (i.e. do a "use-after-free" vulnerability")
-5. The usage in (4) will overwrite the second of two pointers in the `tcache_entry` struct that `a_ptr` now points at.
-5.1. Note that `tcache_entry` struct has two pointers (each pointer of size 8 bytes) -- the first being a pointer to the next `tcache_entry` struct in the singly-linked list, and the second pointer being the key that indicates the "owner" `tcache_perthread_struct" that "owns" the `tcache_entry`.
+5. The usage in (4) will overwrite the second of two pointers in the `tcache_entry` struct that `a_ptr` now points at.<br/>
+5.1. Note that `tcache_entry` struct has two pointers (each pointer of size 8 bytes) -- the first being a pointer to the next `tcache_entry` struct in the singly-linked list, and the second pointer being the key that indicates the "owner" `tcache_perthread_struct` that "owns" the `tcache_entry`.<br/>
 5.2. The combination of the two pointers in `tcache_entry` struct indicate its identity, which is how the application/compiler will know if a heap memory location has already been `free`d.
 6. The programmer, still not knowing that they had already `free`d the heap memory that `a_ptr` pointed to, they will `free` the heap memory that `a_ptr` points to, which now results in a "double-free vulnerability."
 7. The impact of the "double-free vulnerability" is that the next two heap memory addresses (of the same size? I'm not sure yet) that are allocated using `malloc` will point to the same address as each other, and to the original address of `a_ptr`.
